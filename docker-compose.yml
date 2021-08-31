@@ -1,0 +1,31 @@
+version: "3"
+services: 
+  react-app:
+    image: react-app
+    stdin_open: true
+    ports:
+      - "3000:3000"
+    networks:
+      - newblogtest
+  api-server:
+    image: api-server
+    ports:
+      - "5000:5000"
+    networks: 
+      - newblogtest
+    depends_on: 
+      - mongo 
+  mongo:
+    image: mongo:3.6.19-xenial
+    ports:
+      - "27017:27017"
+    networks:
+      - newblogtest
+    volumes:
+    - mongo-data:/data/db
+networks:
+  newblogtest:
+    driver: bridge
+volumes:
+  mongo-data:
+    driver: local
